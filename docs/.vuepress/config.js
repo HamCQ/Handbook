@@ -12,7 +12,7 @@ module.exports = {
       darkMode:true,
       nav: [
         { text: '首页', link: '/' },
-        { text: '社区', link: 'https://forum.hamcq.cn', target:'_blank'},
+        { text: '访问社区', link: 'https://forum.hamcq.cn', target:'_blank'},
       ],
       search: true,
       searchMaxSuggestions: 10,
@@ -43,12 +43,17 @@ module.exports = {
           {
             iconClass: "icon-github", 
             title: "Github", 
-            link: "https://github.com/hamcq"
+            link: "https://github.com/HamCQ/Handbook"
           },
           {
             iconClass: "icon-zhihu", 
             title: "知乎", 
             link: "https://www.zhihu.com/column/c_1327659699995885568"
+          },
+          {
+            iconClass: "icon-weixin", 
+            title: "微信公众号", 
+            link: "https://forum.hamcq.cn/d/826"
           }
         ]
       },
