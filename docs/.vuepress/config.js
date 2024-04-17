@@ -21,7 +21,7 @@ module.exports = {
       prevLinks: false,
       // sidebar: 'auto',
       repo: 'https://github.com/HamCQ/Handbook',
-      repoLabel: '仓库',
+      repoLabel: '开源仓库',
       docsBranch: 'main',
       sidebar: 'structuring',
       showToArticle:false,

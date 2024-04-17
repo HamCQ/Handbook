@@ -5,7 +5,7 @@ tagline: 一起来编写可提供大家查阅的业余无线电手册吧~
 actionText: 开始浏览 →
 actionLink: /pages/dabbca/
 bannerBg: none
-postList: none
+postList: simple
 hideRightBar: true
 
 features: # 可选的
