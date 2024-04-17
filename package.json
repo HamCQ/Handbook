@@ -5,11 +5,12 @@
   "license": "MIT",
   "dependencies": {
     "@vuepress/plugin-back-to-top": "^1.9.10",
+    "cross-env": "^7.0.3",
     "vuepress": "^1.9.10",
     "vuepress-theme-vdoing": "^1.12.9"
   },
   "scripts": {
-    "docs:dev": "export NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
-    "docs:build": "export NODE_OPTIONS=--openssl-legacy-provider && vuepress build docs"
+    "docs:dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
+    "docs:build": "cross-env NODE_OPTIONS=--openssl-legacy-provider && vuepress build docs"
   }
 }
