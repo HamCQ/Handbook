@@ -68,6 +68,7 @@ module.exports = {
           }
         }
       ],
+      'pangu'
     ],
     markdown: {
       toc: {
