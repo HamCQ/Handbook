@@ -73,7 +73,10 @@ module.exports = {
     markdown: {
       toc: {
           includeLevel:[1, 2, 3, 4]
-      }
+      },
+      plugins: [
+        'markdown-it-mathjax3'
+      ]
     },
     theme: 'vdoing',
     

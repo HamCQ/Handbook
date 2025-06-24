@@ -6,6 +6,7 @@
   "dependencies": {
     "@vuepress/plugin-back-to-top": "^1.9.10",
     "cross-env": "^7.0.3",
+    "markdown-it-mathjax3": "^4.3.2",
     "vuepress": "^1.9.10",
     "vuepress-plugin-pangu": "^1.0.1",
     "vuepress-theme-vdoing": "^1.12.9"
