@@ -1,0 +1,65 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # If your repository depends on submodule, please see: https://github.com/actions/checkout
+          submodules: recursive
+      - name: Timezone
+        uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Asia/Shanghai"
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Cache NPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache
+      - name: Install Dependencies
+        run: yarn
+      - name: Build
+        run: yarn run docs:build
+  deploy:
+    needs: build
+    environment:
+      name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Server
+        uses: wlixcc/SFTP-Deploy-Action@v1.0 
+        with:  
+          username: ${{ secrets.SERVER_USERNAME }}
+          server: ${{ secrets.SERVER_IP }}
+          port: ${{ secrets.SERVER_PORT }}
+          ssh_private_key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          ssh_passphrase: ${{ secrets.DEPLOY_PASSPHRASE }}
+          local_path: './docs/.vuepress/dist/*'
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+
+# 1. 在本机生成一个ssh key
+#    ssh-keygen -t ed25519 -f id_ed25519
+#    得到id_ed25519和id_ed25519.pub两个文件
+# 1. 项目Settings中开启Action
+# 2. Environment中添加deploy
+# 3. 添加环境变量secrets
+#     * SERVER_USERNAME：服务器用户名
+#     * SERVER_IP：服务器IP
+#     * SERVER_PORT：服务器端口
+#     * DEPLOY_PRIVATE_KEY：私钥，id_ed25519，注意结尾要留个空o
+#     * DEPLOY_PASSPHRASE：私钥密码
+#     * DEPLOY_PATH：服务器上的部署路径
+# 4. 登录服务器，修改authorized_keys，将id_ed25519.pub文件添加进去
