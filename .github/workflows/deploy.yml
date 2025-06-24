@@ -6,8 +6,11 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
+    environment:
+      name: deploy
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,14 +36,8 @@ jobs:
         run: yarn
       - name: Build
         run: yarn run docs:build
-  deploy:
-    needs: build
-    environment:
-      name: deploy
-    runs-on: ubuntu-latest
-    steps:
       - name: Deploy to Server
-        uses: wlixcc/SFTP-Deploy-Action@v1.0 
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6 
         with:  
           username: ${{ secrets.SERVER_USERNAME }}
           server: ${{ secrets.SERVER_IP }}
