@@ -92,8 +92,12 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            chmod -R 644 ${{ secrets.DEPLOY_PATH }}
+            # 先设置所有者（这样后续操作才有权限）
             chown -R ${{ secrets.SERVER_USER }}:${{ secrets.SERVER_USER }} ${{ secrets.DEPLOY_PATH }}
+            # 目录权限：755 - 允许进入和列出
+            find ${{ secrets.DEPLOY_PATH }} -type d -exec chmod 755 {} \;
+            # 文件权限：644 - 只读
+            find ${{ secrets.DEPLOY_PATH }} -type f -exec chmod 644 {} \;
       
       - name: Remove IP from Aliyun Security Group
         if: always()
