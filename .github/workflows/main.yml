@@ -82,7 +82,6 @@ jobs:
           target: ${{ secrets.DEPLOY_PATH }}
           strip_components: 3
           overwrite: true
-          rm: true
       
       - name: Set Permissions
         uses: appleboy/ssh-action@v1.0.3
