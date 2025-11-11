@@ -1,0 +1,48 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: deploy
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # If your repository depends on submodule, please see: https://github.com/actions/checkout
+          submodules: recursive
+      - name: Timezone
+        uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Asia/Shanghai"
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Cache NPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache
+      - name: Install Dependencies
+        run: yarn
+      - name: Build
+        run: yarn run docs:build
+      - name: Deploy to Server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6 
+        with:  
+          username: ${{ secrets.SERVER_USERNAME }}
+          server: ${{ secrets.SERVER_IP }}
+          port: ${{ secrets.SERVER_PORT }}
+          ssh_private_key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+          ssh_passphrase: ${{ secrets.DEPLOY_PASSPHRASE }}
+          local_path: './docs/.vuepress/dist/*'
+          remote_path: ${{ secrets.DEPLOY_PATH }}
